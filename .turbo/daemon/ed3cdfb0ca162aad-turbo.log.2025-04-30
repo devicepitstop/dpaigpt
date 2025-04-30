@@ -22,3 +22,5 @@
 2025-04-30T14:37:10.125237Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("kai-backend"), path: AnchoredSystemPathBuf("apps\\kai") }}))
 2025-04-30T15:05:47.511201Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo\\daemon\\ed3cdfb0ca162aad-turbo.log.2025-04-30")}
 2025-04-30T15:05:47.511219Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-04-30T15:05:51.921872Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo\\daemon\\ed3cdfb0ca162aad-turbo.log.2025-04-30")}
+2025-04-30T15:05:51.921883Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
