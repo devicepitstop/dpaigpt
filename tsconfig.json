@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "target": "ES2022",
+      "module": "ES2022",
+      "moduleResolution": "node",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["*"],
+        "@core/*": ["packages/core/src/*"],
+        "@sdk/*": ["packages/repairshopr-sdk/src/*"],
+        "@backend/*": ["apps/kai/src/*"]
+      }
+    }
+  }
+  

@@ -1,0 +1,25 @@
+# Node.js
+node_modules/
+dist/
+build/
+
+# Environment
+.env
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel
+.vercel/
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Optional IDE configs
+.vscode/
+.idea/

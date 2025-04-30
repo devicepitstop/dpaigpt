@@ -1,0 +1,11 @@
+{
+    "functions": {
+      "api/**/*.ts": {
+        "runtime": "edge"
+      }
+    },
+    "cron": {
+      "curate-parts": "0 13 * * *"
+    }
+  }
+  

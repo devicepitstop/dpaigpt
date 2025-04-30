@@ -1,0 +1,21 @@
+{
+    "name": "kai-backend",
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+    "dev": "pnpm build && vercel dev --listen 4000",
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run"
+},
+    "dependencies": {
+      "@devicepitstop/repairshopr-sdk": "workspace:*",
+      "@devicepitstop/core": "workspace:*",
+      "@neondatabase/serverless": "^0.8.0",
+      "uuid": "^9.0.0"
+    },
+    "devDependencies": {
+      "typescript": "^5.4.2",
+      "vitest": "^1.2.0"
+    }
+  }
+  
