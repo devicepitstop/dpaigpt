@@ -1,13 +1,12 @@
 {
-    "build": {
-      "env": {
-        "NODE_ENV": "production"
-      }
-    },
-    "projects": {
-      "kai-backend": {
-        "source": "apps/kai"
-      }
+  "functions": {
+    "api/**/*.ts": {
+      "runtime": "edge"
+    }
+  },
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
     }
   }
-  
+}
