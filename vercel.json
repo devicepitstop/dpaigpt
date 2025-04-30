@@ -1,0 +1,13 @@
+{
+    "build": {
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "projects": {
+      "kai-backend": {
+        "source": "apps/kai"
+      }
+    }
+  }
+  

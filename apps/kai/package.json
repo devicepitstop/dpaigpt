@@ -4,7 +4,7 @@
     "type": "module",
     "scripts": {
     "dev": "pnpm build && vercel dev --listen 4000",
-    "build": "tsc -p tsconfig.json",
+    "build": "pnpm --filter @devicepitstop/repairshopr-sdk build && tsc -p tsconfig.json",
     "test": "vitest run"
 },
     "dependencies": {

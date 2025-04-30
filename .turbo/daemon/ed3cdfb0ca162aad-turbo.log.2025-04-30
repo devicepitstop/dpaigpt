@@ -32,3 +32,16 @@
 2025-04-30T15:09:38.920136Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
 2025-04-30T15:11:06.120743Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\kai"), AnchoredSystemPathBuf("apps\\kai\\vercel.json")}
 2025-04-30T15:11:06.120758Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("kai-backend"), path: AnchoredSystemPathBuf("apps\\kai") }}))
+2025-04-30T15:11:12.122456Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo\\daemon\\ed3cdfb0ca162aad-turbo.log.2025-04-30")}
+2025-04-30T15:11:12.122468Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-04-30T15:14:59.127896Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages\\vercel.json")}
+2025-04-30T15:14:59.127910Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-04-30T15:14:59.724382Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages")}
+2025-04-30T15:14:59.724395Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@devicepitstop/core"), path: AnchoredSystemPathBuf("packages\\core") }}))
+2025-04-30T15:15:10.113592Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(""), AnchoredSystemPathBuf("vercel.json"), AnchoredSystemPathBuf("packages\\vercel.json")}
+2025-04-30T15:15:10.113611Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-04-30T15:15:11.324406Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages")}
+2025-04-30T15:15:11.324425Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@devicepitstop/core"), path: AnchoredSystemPathBuf("packages\\core") }}))
+2025-04-30T15:15:11.324460Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-04-30T15:15:20.113585Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("vercel.json")}
+2025-04-30T15:15:20.113599Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))

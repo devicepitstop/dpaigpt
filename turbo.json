@@ -1,8 +1,13 @@
 {
     "$schema": "https://turbo.build/schema.json",
-    "pipeline": {
-      "build": {},
-      "dev": { "cache": false },
+    "globalDependencies": [],
+    "tasks": {
+      "build": {
+        "outputs": ["dist/**"]
+      },
+      "dev": {
+        "cache": false
+      },
       "lint": {},
       "test": {}
     }
