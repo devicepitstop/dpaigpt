@@ -4,8 +4,6 @@
         "runtime": "edge"
       }
     },
-    "cron": {
-      "curate-parts": "0 13 * * *"
-    }
+   
   }
   
