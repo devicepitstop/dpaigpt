@@ -4,9 +4,6 @@
       "runtime": "edge"
     }
   },
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
-    }
-  }
+  "buildCommand": "pnpm build",
+  "outputDirectory": null
 }

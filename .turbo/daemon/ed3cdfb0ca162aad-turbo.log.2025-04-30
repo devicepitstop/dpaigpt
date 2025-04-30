@@ -63,3 +63,7 @@
 2025-04-30T15:35:18.121052Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@devicepitstop/repairshopr-sdk"), path: AnchoredSystemPathBuf("packages\\repairshopr-sdk") }}))
 2025-04-30T15:54:34.521308Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("apps\\kai\\package.json"), AnchoredSystemPathBuf("turbo.json")}
 2025-04-30T15:54:34.521324Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(All)
+2025-04-30T15:54:58.926403Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".turbo\\daemon\\ed3cdfb0ca162aad-turbo.log.2025-04-30")}
+2025-04-30T15:54:58.926419Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-04-30T16:07:05.522159Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("vercel.json")}
+2025-04-30T16:07:05.522210Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
