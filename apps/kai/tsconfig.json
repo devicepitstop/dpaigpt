@@ -8,7 +8,7 @@
         "@core/*": ["../../packages/core/src/*"],
         "@backend/*": ["./src/*"]
       },
-      "moduleResolution": "node"
+      "moduleResolution": "bundler"
     },
     "include": ["src/**/*.ts", "test/**/*.ts"]
   }

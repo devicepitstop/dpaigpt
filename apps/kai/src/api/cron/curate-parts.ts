@@ -1,6 +1,6 @@
 // apps/kai/src/api/cron/curate-parts.ts
 
-import { RepairShoprClient } from '../../../../packages/repairshopr-sdk/src/repairshopr';
+import { RepairShoprClient } from '@devicepitstop/repairshopr-sdk';
 
 export const config = {
   runtime: 'edge',
