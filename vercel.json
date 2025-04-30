@@ -1,8 +1,9 @@
 {
   "functions": {
-    "api/**/*.ts": {
+    "apps/kai/src/api/**/*.ts": {
       "runtime": "edge"
     }
   },
-  "buildCommand": "pnpm build"
+  "buildCommand": "pnpm --filter kai-backend build && mkdir -p dummy && echo placeholder > dummy/index.html",
+  "outputDirectory": "dummy"
 }
