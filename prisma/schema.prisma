@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model promises {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  customer_name String?
+  promise_text  String?
+  due_time      DateTime? @db.Timestamptz(6)
+  fulfilled     Boolean?  @default(false)
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model transcripts {
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  session_id      String?   @db.Uuid
+  raw_text        String
+  detected_intent Json?
+  action_taken    Json?
+  created_at      DateTime? @default(now()) @db.Timestamptz(6)
+}

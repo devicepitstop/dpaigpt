@@ -61,7 +61,7 @@ export async function handleAndSaveTranscript({ rawText }: HandleTranscriptOptio
     }
   }
 
-  return { success: true };
+  return { success: true, actionTaken };
 }
 
 /**
