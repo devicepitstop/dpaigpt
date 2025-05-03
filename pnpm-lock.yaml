@@ -48,15 +48,36 @@ importers:
 
   apps/jippy-ui:
     dependencies:
+      '@devicepitstop/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@devicepitstop/repairshopr-sdk':
+        specifier: workspace:*
+        version: link:../../packages/repairshopr-sdk
+      '@neondatabase/serverless':
+        specifier: ^0.8.1
+        version: 0.8.1
+      '@prisma/client':
+        specifier: ^6.7.0
+        version: 6.7.0(prisma@6.7.0(typescript@5.8.3))(typescript@5.8.3)
       next:
         specifier: 15.3.1
         version: 15.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      openai:
+        specifier: ^4.x
+        version: 4.96.2
+      prisma:
+        specifier: ^6.7.0
+        version: 6.7.0(typescript@5.8.3)
       react:
         specifier: ^19.0.0
         version: 19.1.0
       react-dom:
         specifier: ^19.0.0
         version: 19.1.0(react@19.1.0)
+      uuid:
+        specifier: ^9.x
+        version: 9.0.1
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -85,40 +106,6 @@ importers:
       typescript:
         specifier: ^5
         version: 5.8.3
-
-  apps/kai:
-    dependencies:
-      '@devicepitstop/core':
-        specifier: workspace:*
-        version: link:../../packages/core
-      '@devicepitstop/repairshopr-sdk':
-        specifier: workspace:*
-        version: link:../../packages/repairshopr-sdk
-      '@neondatabase/serverless':
-        specifier: ^0.8.0
-        version: 0.8.1
-      next:
-        specifier: 15.3.1
-        version: 15.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      openai:
-        specifier: ^4.96.2
-        version: 4.96.2
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-      uuid:
-        specifier: ^9.0.0
-        version: 9.0.1
-    devDependencies:
-      typescript:
-        specifier: ^5.4.2
-        version: 5.8.3
-      vitest:
-        specifier: ^1.2.0
-        version: 1.6.1(@types/node@20.17.32)(lightningcss@1.29.2)
 
   packages/core: {}
 

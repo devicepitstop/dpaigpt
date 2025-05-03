@@ -1,98 +1,138 @@
+// apps/jippy-ui/src/app/page.tsx
 'use client';
-import { useState, useEffect, useRef } from 'react';
 
-type Msg = { sender: 'you' | 'jippy'; text: string };
+import { useEffect, useRef, useState } from 'react';
+
+type Message = { sender: 'user' | 'jippy'; text: string };
 
 export default function Page() {
-  const [msgs, setMsgs] = useState<Msg[]>([]);
-  const [listening, setListening] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
-  const speakingRef = useRef(false);
+
+  const append = (sender: Message['sender'], text: string) =>
+    setMessages((m) => [...m, { sender, text }]);
+
+  const speak = (text: string) => {
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.onstart = () => recognitionRef.current?.stop();
+    utter.onend = () => {
+      try { recognitionRef.current?.start(); } catch { /* ignore */ }
+    };
+    window.speechSynthesis.speak(utter);
+  };
 
   useEffect(() => {
     const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SR) {
-      console.warn('SpeechRecognition not supported');
+      console.error('SpeechRecognition not supported');
       return;
     }
-
     const recog = new SR();
-    recognitionRef.current = recog;
     recog.continuous = true;
     recog.interimResults = false;
-    recog.lang = 'en-US';
+    recognitionRef.current = recog;
 
-    recog.onstart = () => setListening(true);
+    recog.onresult = async (ev) => {
+      const transcript = ev.results[ev.resultIndex][0].transcript.trim();
+      console.log('🎙 Transcript:', transcript);
+      
+      // match either “hey jippy” or “hey jiffy” (case-insensitive)
+      const match = transcript.toLowerCase().match(/^(hey jipp(?:y|i))\s+(.*)$/i);
+      if (!match) return;
+
+      const [, wake, command] = match;
+      console.log('🔔 Wake-word hit. Command →', command);
+      append('user', command);
+      recog.stop();
+
+      // 1) Call your transcript endpoint
+      let actionTaken: any = { action: 'none' };
+      try {
+        const r1 = await fetch('/api/transcript', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: transcript }),
+        });
+        const json1 = await r1.json();
+        actionTaken = json1.actionTaken;
+        console.log('/api/transcript →', json1);
+      } catch (e) {
+        console.error('transcript error', e);
+      }
+
+      // 2) If Kai actually did something, confirm it
+      if (actionTaken.action !== 'none') {
+        let confirmText = '';
+        if (actionTaken.action === 'update_ticket') {
+          confirmText = `Ticket ${actionTaken.ticketId} for ${actionTaken.customer} updated.`;
+        } else if (actionTaken.action === 'create_ticket') {
+          confirmText = `Created ticket for ${actionTaken.subject}.`;
+        }
+        if (confirmText) {
+          append('jippy', confirmText);
+          speak(confirmText);
+        }
+      }
+
+      // 3) Always fall back to the AI chat reply
+      try {
+        const r2 = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: command }),
+        });
+        const { reply } = await r2.json();
+        console.log('/api/chat →', reply);
+        append('jippy', reply);
+        speak(reply);
+      } catch (e) {
+        console.error('chat error', e);
+      }
+    };
+
+    recog.onerror = (ev: SpeechRecognitionErrorEvent) => {
+      // quietly skip no-speech errors
+      if (ev.error !== 'no-speech') {
+        console.error('SpeechRecognitionError', ev.error);
+      }
+    };
+
     recog.onend = () => {
-      setListening(false);
+      console.log('🔁 recognition ended, restarting in 500ms...');
+      setTimeout(() => {
+        try { recog.start(); } catch {}
+      }, 500);
+    };
+
+    // start it up
+    try {
       recog.start();
-    };
+      console.log('🔊 Mic listener started. Say “Hey Jippy …”');
+    } catch (e) {
+      console.error('Failed to start recognition', e);
+    }
 
-    recog.onresult = async (evt: any) => {
-      if (speakingRef.current) return;
-
-      const transcript = Array.from(evt.results)
-        .slice(evt.resultIndex)
-        .map((r: any) => r[0].transcript)
-        .join('')
-        .trim();
-
-      // Display user message
-      setMsgs((m) => [...m, { sender: 'you', text: transcript }]);
-
-      // Save transcript to Kai
-      fetch('http://localhost:3000/api/transcript', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: transcript }),
-      });
-
-      // Fetch Jippy’s reply
-      const res = await fetch('http://localhost:3000/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: transcript }),
-      });
-      const { reply } = await res.json();
-
-      // Display Jippy’s reply
-      setMsgs((m) => [...m, { sender: 'jippy', text: reply }]);
-
-      // Speak Jippy’s reply
-      const utter = new SpeechSynthesisUtterance(reply);
-      utter.onstart = () => {
-        speakingRef.current = true;
-        recognitionRef.current?.stop();
-      };
-      utter.onend = () => {
-        speakingRef.current = false;
-        recognitionRef.current?.start();
-      };
-      window.speechSynthesis.speak(utter);
-    };
-
-    recog.start();
     return () => recog.stop();
   }, []);
 
   return (
-    <main style={{ maxWidth: 600, margin: '2rem auto', padding: '1rem' }}>
-      <h2>Jippy {listening ? '🔊' : '🔈'}</h2>
-      <div style={{ minHeight: 200, margin: '1rem 0' }}>
-        {msgs.map((m, i) => (
+    <main style={{ padding: 20, fontFamily: 'sans-serif' }}>
+      <h1>Jippy 🔊</h1>
+      <div style={{ maxWidth: 600, margin: '20px auto' }}>
+        {messages.map((m, i) => (
           <div
             key={i}
             style={{
-              textAlign: m.sender === 'you' ? 'right' : 'left',
-              margin: '0.5rem 0',
+              textAlign: m.sender === 'user' ? 'right' : 'left',
+              margin: '8px 0',
             }}
           >
             <span
               style={{
                 display: 'inline-block',
-                padding: '0.5rem 1rem',
-                borderRadius: 12,
-                background: m.sender === 'you' ? '#e0f7fa' : '#f1f8e9',
+                padding: '8px 12px',
+                borderRadius: 16,
+                background: m.sender === 'user' ? '#cce5ff' : '#e2e3e5',
               }}
             >
               {m.text}
@@ -100,7 +140,7 @@ export default function Page() {
           </div>
         ))}
       </div>
-      <p style={{ fontSize: 12, opacity: 0.6 }}>
+      <p style={{ textAlign: 'center', color: '#666' }}>
         Just say anything—Jippy listens, saves, and responds.
       </p>
     </main>

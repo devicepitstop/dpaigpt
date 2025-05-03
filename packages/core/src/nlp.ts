@@ -1,5 +1,3 @@
-// packages/core/src/nlp.ts
-
 import levenshtein from 'fast-levenshtein';
 
 /* ---------- Types ---------- */
@@ -22,7 +20,13 @@ export interface UpdateIntent {
   amountOwed?: number;
 }
 
-export type Intent = CreateIntent | UpdateIntent | { kind: 'none' };
+export interface SmsIntent {
+  kind: 'sms';
+  customerName: string;
+  message: string;
+}
+
+export type Intent = CreateIntent | UpdateIntent | SmsIntent | { kind: 'none' };
 
 /* ---------- Keyword map for create flow ---------- */
 const PROBLEMS = {
@@ -36,13 +40,25 @@ const PROBLEMS = {
 export function detectIntent(raw: string): Intent {
   const text = raw.toLowerCase();
 
-  /* --- update ticket intent --------------------------------------- */
-  if (/update (.+?)'s ticket/.test(text)) {
-    const customerName = text.match(/update (.+?)'s ticket/)![1].trim();
+  // --- SMS intent -------------------------------
+  const smsMatch = text.match(/(?:text|message|tell)\s+([\w\s]+?)\s+(?:that\s+)?(.+)/);
+  if (smsMatch) {
+    const customerName = smsMatch[1].trim();
+    const message = smsMatch[2].trim();
+    return {
+      kind: 'sms',
+      customerName,
+      message
+    };
+  }
 
-    const status: Status =
-      (['In Progress', 'Pending', 'Waiting on Customer'] as const)
-        .find((s) => text.includes(s)) ?? 'Completed';
+  // --- update ticket intent ----------------------
+  const updateMatch = text.match(/update\s+([\w\s]+?)\s+(?:ticket|case)/);
+  if (updateMatch) {
+    const customerName = updateMatch[1].trim();
+
+    const statusMatch = text.match(/\b(in progress|pending|waiting on customer|completed)\b/i);
+    const status: Status = (statusMatch?.[1]?.replace(/\b\w/g, c => c.toUpperCase()) as Status) ?? 'Completed';
 
     const amtMatch = text.match(/\$([\d.]+)/);
     const amountOwed = amtMatch ? Number(amtMatch[1]) : undefined;
@@ -60,7 +76,7 @@ export function detectIntent(raw: string): Intent {
     };
   }
 
-  /* --- create ticket intent --------------------------------------- */
+  // --- create ticket intent ----------------------
   const keyword = Object.keys(PROBLEMS).find((k) => text.includes(k));
   if (!keyword) return { kind: 'none' };
 
@@ -78,6 +94,6 @@ export function detectIntent(raw: string): Intent {
 
 /* ---------- Utility: fuzzy match similarity 0–1 ---------- */
 export function similarity(a: string, b: string): number {
-    const max = Math.max(a.length, b.length);
-    return (max - levenshtein.get(a.toLowerCase(), b.toLowerCase())) / max;
-  }
+  const max = Math.max(a.length, b.length);
+  return (max - levenshtein.get(a.toLowerCase(), b.toLowerCase())) / max;
+}

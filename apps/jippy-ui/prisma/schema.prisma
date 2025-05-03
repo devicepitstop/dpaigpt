@@ -1,0 +1,24 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Transcript {
+  id             String   @id @default(uuid())
+  sessionId      String
+  rawText        String
+  detectedIntent String
+  actionTaken    String
+  createdAt      DateTime @default(now())
+}
+
+model Promise {
+  id           String   @id @default(uuid())
+  customerName String
+  promiseText  String
+  dueTime      DateTime
+}
